@@ -10,4 +10,28 @@ const getPublisherById = async (id) => {
     return result.rows[0];
 };
 
-module.exports = { getPublishers, getPublisherById };
+const createPublisher = async (publisher_name, founder) => {
+    const result = await pool.query(
+        "INSERT INTO publishers (publisher_name, founder) VALUES ($1, $2) RETURNING *",
+        [publisher_name, founder]
+    );
+    return result.rows[0];
+};
+
+const updatePublisher = async (id, publisher_name, founder) => {
+    const result = await pool.query(
+        "UPDATE publishers SET publisher_name = $1, founder = $2 WHERE id = $3 RETURNING *",
+        [publisher_name, founder, id]
+    );
+    return result.rows[0];
+};
+
+const deletePublisher = async (id) => {
+    const result = await pool.query(
+        "DELETE FROM publishers WHERE id = $1 RETURNING *",
+        [id]
+    );
+    return result.rows[0];
+};
+
+module.exports = { getPublishers, getPublisherById, createPublisher, updatePublisher, deletePublisher };
