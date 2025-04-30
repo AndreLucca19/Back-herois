@@ -1,11 +1,13 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const publisherController = require("../controllers/publisherController");
+const publisherController = require('../controllers/publisherController');
+const apiKeyMiddleware = require('../config/apiKey');
 
-router.get("/", publisherController.getAllPublishers); 
-router.get("/:id", publisherController.getPublisher); 
-router.post("/", publisherController.createPublisher); 
-router.put("/:id", publisherController.updatePublisher); 
-router.delete("/:id", publisherController.deletePublisher); 
+router.use(apiKeyMiddleware);
+router.get('/publishers', publisherController.getAllPublishers);
+router.get('/publisher/:id', publisherController.getPublisherById);
+router.post("/publisher", publisherController.createPublisher);
+router.put("/publisher/:id", publisherController.updatePublisher);
+router.delete("/publisher/:id", publisherController.deletePublisher);
 
 module.exports = router;
